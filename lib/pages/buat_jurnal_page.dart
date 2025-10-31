@@ -160,14 +160,28 @@ class _BuatJurnalPageState extends State<BuatJurnalPage> {
                 },
               ),
               SizedBox(height: 10),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => {
-                    _saveJurnal(context),
-                  }, // <-- Panggil fungsi yang kitabuat tadi.
-                  child: Text('Simpan'),
-                ),
+              Row(
+                spacing: 20,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => {
+                        _saveJurnal(context),
+                      }, // <-- Panggil fungsi yang kitabuat tadi.
+                      child: Text('Simpan'),
+                    ),
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(
+                          context,
+                        ); // Cancel: kembali tanpa menyimpan
+                      }, // <-- Panggil fungsi yang kitabuat tadi.
+                      child: Text('Cancel'),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
