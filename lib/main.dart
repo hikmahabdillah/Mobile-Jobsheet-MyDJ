@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mydj_aldrin3a/data/data_provider.dart';
+import 'package:mydj_aldrin3a/pages/login_page.dart';
 import 'package:mydj_aldrin3a/pages/simple_home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         primarySwatch: Colors.blue,
       ),
-      home: const SimpleHomePage(title: 'Jurnal Harian Guru'),
+      home: const LoginPage(),
     );
   }
 }
