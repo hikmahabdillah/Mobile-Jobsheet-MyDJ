@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mydj_aldrin3a/components/media_selector.dart';
 import 'package:mydj_aldrin3a/data/data_provider.dart';
 import 'package:mydj_aldrin3a/data/jurnal.dart';
 import 'package:provider/provider.dart';
@@ -158,6 +159,34 @@ class _BuatJurnalPageState extends State<BuatJurnalPage> {
                     dimensiProfilPelajarPancasila = text;
                   });
                 },
+              ),
+              SizedBox(height: 10),
+              _textArea(
+                'Dimensi Profil Pelajar Pancasila',
+                'Tuliskan Dimensi Profil Pelajar Pancasila',
+                (text) {
+                  dimensiProfilPelajarPancasila = text;
+                },
+              ),
+              /* Tambahkan di sini */
+              SizedBox(height: 10),
+              Text('Foto Kegiatan'),
+              SizedBox(height: 10),
+              MediaSelector(), // <-- MediaSelector untuk foto.
+              SizedBox(height: 10),
+              Text('Video Kegiatan'),
+              SizedBox(height: 10),
+              MediaSelector(
+                mediaType: MediaType.video,
+              ), // <-- MediaSelector untuk video.
+              /* Sebelum button Simpan ini */
+              SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => {_saveJurnal(context)},
+                  child: Text('Simpan'),
+                ),
               ),
               SizedBox(height: 10),
               Row(

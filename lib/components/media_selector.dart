@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:mydj/components/video_preview.dart';
+import 'package:mydj_aldrin3a/components/video_preview.dart';
 
 // Tipe data enum untuk menentukan pilihan apakah foto atau video.
 enum MediaType { photo, video }
@@ -60,7 +60,6 @@ class _MediaSelectorState extends State<MediaSelector> {
     Icon icon;
     String caption = '';
     Widget placeholderWidget;
-    // Cek jenis medianya apakah foto atau video
     if (widget.mediaType == MediaType.photo) {
       icon = Icon(Icons.image_not_supported, color: Colors.grey);
       caption = 'No photo';
@@ -72,8 +71,9 @@ class _MediaSelectorState extends State<MediaSelector> {
     } else {
       icon = Icon(Icons.videocam_off, color: Colors.grey);
       caption = 'No video';
-      placeholderWidget =
-          Column(); // <-- Nanti kita ganti dengan komponen yang kita buat
+      placeholderWidget = VideoPreview(
+        path: _mediaPath,
+      ); // <-- Di sini, `Column()` Kita ganti dengan widget yang kita buat tadi.
     }
     // Jika path kosong, tampilkan "No Photo/Video".
     if (_mediaPath.isEmpty) {
