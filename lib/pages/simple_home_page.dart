@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mydj_aldrin3a/data/login_info.dart';
 import 'package:mydj_aldrin3a/pages/lihat_jurnal_page.dart';
 import 'package:mydj_aldrin3a/pages/buat_jurnal_page.dart';
 import 'package:mydj_aldrin3a/pages/akun_page.dart';
@@ -16,6 +17,14 @@ class SimpleHomePage extends StatefulWidget {
 }
 
 class _SimpleHomePageState extends State<SimpleHomePage> {
+  // @override
+  // void initState() async {
+  //   super.initState();
+  //   LoginInfo dariSP = await LoginInfo.loadFromSharedPreferences();
+  //   print("Isi login info dari shared preferences:");
+  //   print(dariSP);
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mydj_aldrin3a/components/password_field.dart';
+import 'package:mydj_aldrin3a/data/data_provider.dart';
 import 'package:mydj_aldrin3a/pages/simple_home_page.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   final String title = 'MyDJ - Welcome';
@@ -15,14 +17,24 @@ class _LoginPageState extends State<LoginPage> {
   String namaPengguna = ''; // <-- Nantinya digunakan untuk menyimpan username
   String sandi = ''; // <-- Yang ini digunakan untuk menyimpan password
 
-  void login(BuildContext context) {
+  Future<void> _login(BuildContext context) async {
+    // Ambil instance Provider (state management) kita dari BuildContext
+    DataProvider provider = context.read<DataProvider>();
+    // Jika username dan password benar..
     if (namaPengguna == 'guru' && sandi == 'guru') {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SimpleHomePage(title: 'Beranda'),
-        ),
-      );
+      // Simpan info login lewat Provider (State Management))
+      await provider.saveLoginInfo(namaPengguna, sandi);
+
+      // Jika ingin menggunakan BuildContext dalam operasi async, harus dicek dulu
+      if (context.mounted) {
+        // Buka halaman home
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SimpleHomePage(title: 'Beranda'),
+          ),
+        );
+      }
     }
   }
 
@@ -88,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                       backgroundColor: Colors.purple,
                     ),
                     onPressed: () {
-                      login(context);
+                      _login(context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12),

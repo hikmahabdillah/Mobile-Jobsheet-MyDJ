@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mydj_aldrin3a/components/password_field.dart';
+import 'package:mydj_aldrin3a/data/login_info.dart';
+import 'package:mydj_aldrin3a/pages/login_page.dart';
 
 class AkunPage extends StatefulWidget {
   const AkunPage({super.key, required this.title});
@@ -11,6 +13,18 @@ class AkunPage extends StatefulWidget {
 }
 
 class _AkunPageState extends State<AkunPage> {
+  _openLoginPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
+
+  Future<void> _logout(BuildContext context) async {
+    await LoginInfo.deleteFromSharedPreferences();
+    _openLoginPage(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,10 +77,10 @@ class _AkunPageState extends State<AkunPage> {
             SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
+              child: FilledButton(
+                style: FilledButton.styleFrom(backgroundColor: Colors.purple),
                 onPressed: () {
-                  //
+                  _logout(context); // <-- Nanti kita buat method _logout ini
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(12),
