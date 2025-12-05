@@ -9,7 +9,13 @@ enum MediaType { photo, video }
 // Class yang nantinya dipanggil dari halaman lain yang membutuhkan komponen pilih media.
 class MediaSelector extends StatefulWidget {
   final MediaType mediaType;
-  const MediaSelector({super.key, this.mediaType = MediaType.photo});
+  final void Function(String path) onMediaChanged;
+  static void _emptyFunction(String value) {}
+  const MediaSelector({
+    super.key,
+    this.mediaType = MediaType.photo,
+    this.onMediaChanged = _emptyFunction, // <-- Kita tambahkan ini.
+  });
   @override
   State<StatefulWidget> createState() {
     return _MediaSelectorState();
@@ -36,6 +42,7 @@ class _MediaSelectorState extends State<MediaSelector> {
       setState(() {
         _mediaPath = media.path;
       });
+      widget.onMediaChanged(_mediaPath);
     }
   }
 
@@ -46,6 +53,7 @@ class _MediaSelectorState extends State<MediaSelector> {
       setState(() {
         _mediaPath = media.path;
       });
+      widget.onMediaChanged(_mediaPath);
     }
   }
 
@@ -54,6 +62,7 @@ class _MediaSelectorState extends State<MediaSelector> {
     setState(() {
       _mediaPath = '';
     });
+    widget.onMediaChanged(_mediaPath);
   }
 
   Widget _mediaPlaceholder() {

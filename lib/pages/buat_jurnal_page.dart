@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mydj_aldrin3a/components/media_selector.dart';
+import 'package:mydj_aldrin3a/data/api_service.dart';
 import 'package:mydj_aldrin3a/data/data_provider.dart';
 import 'package:mydj_aldrin3a/data/jurnal.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,8 @@ class _BuatJurnalPageState extends State<BuatJurnalPage> {
   String materiTopikPembelajaran = '';
   String kegiatanPembelajaran = '';
   String dimensiProfilPelajarPancasila = '';
+  String fotoKegiatanPath = '';
+  String videoKegiatanPath = '';
 
   void _saveJurnal(BuildContext context) {
     Jurnal jurnal = Jurnal(
@@ -53,9 +56,46 @@ class _BuatJurnalPageState extends State<BuatJurnalPage> {
       materiTopikPembelajaran: materiTopikPembelajaran,
       kegiatanPembelajaran: kegiatanPembelajaran,
       dimensiProfilPelajarPancasila: dimensiProfilPelajarPancasila,
+      // Tambahkan 2 baris berikut:
+      fotoKegiatanPath: fotoKegiatanPath,
+      videoKegiatanPath: videoKegiatanPath,
     );
     DataProvider provider = context.read<DataProvider>();
     provider.addNew(jurnal);
+    _uploadJurnal(context, jurnal); // <-- Dan tambahkan ini juga.
+  }
+
+  Future<void> _showSuccessDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Berhasil"),
+          content: const Text("Data jurnal berhasil disubmit!"),
+
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // tutup dialog
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _uploadJurnal(BuildContext context, Jurnal jurnal) async {
+    // Upload
+    try {
+      await ApiService().uploadJurnal(jurnal);
+      if (context.mounted) {
+        await _showSuccessDialog(context);
+      }
+    } catch (e) {
+      print("Error upload: $e");
+    }
   }
 
   @override
@@ -168,26 +208,36 @@ class _BuatJurnalPageState extends State<BuatJurnalPage> {
                   dimensiProfilPelajarPancasila = text;
                 },
               ),
-              /* Tambahkan di sini */
               SizedBox(height: 10),
               Text('Foto Kegiatan'),
               SizedBox(height: 10),
-              MediaSelector(), // <-- MediaSelector untuk foto.
+              MediaSelector(
+                onMediaChanged: (mediaPath) {
+                  // <-- Kita tambahkan ini.
+                  setState(() {
+                    fotoKegiatanPath = mediaPath;
+                  });
+                },
+              ),
               SizedBox(height: 10),
               Text('Video Kegiatan'),
               SizedBox(height: 10),
               MediaSelector(
                 mediaType: MediaType.video,
-              ), // <-- MediaSelector untuk video.
-              /* Sebelum button Simpan ini */
-              SizedBox(height: 10),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => {_saveJurnal(context)},
-                  child: Text('Simpan'),
-                ),
+                onMediaChanged: (mediaPath) {
+                  // <-- Dan ini juga.
+                  setState(() {
+                    videoKegiatanPath = mediaPath;
+                  });
+                },
               ),
+              // SizedBox(
+              //   width: double.infinity,
+              //   child: ElevatedButton(
+              //     onPressed: () => {_saveJurnal(context)},
+              //     child: Text('Simpan'),
+              //   ),
+              // ),
               SizedBox(height: 10),
               Row(
                 spacing: 20,

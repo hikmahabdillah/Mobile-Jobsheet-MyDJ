@@ -7,6 +7,10 @@ class Jurnal {
   String materiTopikPembelajaran;
   String kegiatanPembelajaran;
   String dimensiProfilPelajarPancasila;
+  String fotoKegiatanPath =
+      ''; // <-- Untuk menyimpan path ke foto kegiatan (opsional)
+  String videoKegiatanPath =
+      ''; // <-- Untuk menyimpan path ke video kegiatan (opsional)
   // Konstuktor dengan 'named parameters' dan default values.
   Jurnal({
     this.kelas = '',
@@ -16,6 +20,8 @@ class Jurnal {
     this.materiTopikPembelajaran = '',
     this.kegiatanPembelajaran = '',
     this.dimensiProfilPelajarPancasila = '',
+    this.fotoKegiatanPath = '',
+    this.videoKegiatanPath = '',
   }) : _createdAt = DateTime.now(); // <-- Memberikan nilai terlebih dahulu
   // ke property _createdAt, sebelum konstruktor dijalankan.
   DateTime get createdAt => _createdAt;
